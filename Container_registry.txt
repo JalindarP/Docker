@@ -1,0 +1,24 @@
+az login
+//it will open login page, login with appropriate credentials
+
+//it will show all the subscriptions associated with the logged user
+az account list --output table
+
+//if user subscripiton is not set as default, then you need to set it as default
+//copy the subscription id
+ az account set -s  "your subscription id"
+
+//now login to the acr registry, once logged in it will show Login Succeeded
+ az acr login -n amirk19 
+
+//Now we are ready to download and create the image for clamav
+docker pull mk0x/docker-clamav:alpine
+
+//Now tag the image inline with our acr registry
+docker tag  mk0x/docker-clamav:alpine amirk19.azurecr.io/clamav:v1
+
+//Now push the image to the acr
+docker push amirk19.azurecr.io/clamav:v1
+
+//Now verify the image has been uploaded by navigating the acr via portal
+/Click repositories under Services
